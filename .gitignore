@@ -1,0 +1,16 @@
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.env
+*.log
+.pytest_cache/
+
+data/events.db
+
+.idea/
+.vscode/
