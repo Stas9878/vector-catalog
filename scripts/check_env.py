@@ -2,6 +2,7 @@
 Проверка готовности окружения VectorCatalog.
 Запуск: python scripts/check_env.py
 """
+import asyncio
 import sys
 from pathlib import Path
 
@@ -49,21 +50,28 @@ def check_config() -> bool:
         return False
 
 
-def check_qdrant() -> bool:
+async def _check_qdrant_async() -> bool:
+    from qdrant_client import AsyncQdrantClient
+
+    from app.config import get_settings
+
+    settings = get_settings()
+    kwargs = {"url": str(settings.QDRANT_URL)}
+    if settings.QDRANT_API_KEY:
+        kwargs["api_key"] = settings.QDRANT_API_KEY
+    client = AsyncQdrantClient(**kwargs)
     try:
-        from qdrant_client import QdrantClient
-
-        from app.config import get_settings
-
-        settings = get_settings()
-        kwargs = {"url": str(settings.QDRANT_URL)}
-        if settings.QDRANT_API_KEY:
-            kwargs["api_key"] = settings.QDRANT_API_KEY
-        client = QdrantClient(**kwargs)
-        collections = client.get_collections()
+        collections = await client.get_collections()
         count = len(collections.collections)
         print(f"OK    Qdrant: доступен ({count} коллекций)")
         return True
+    finally:
+        await client.close()
+
+
+def check_qdrant() -> bool:
+    try:
+        return asyncio.run(_check_qdrant_async())
     except Exception as exc:
         print(f"FAIL  Qdrant: {exc}")
         print("      Поднимите контейнер (см. урок 6.1, шаг 3)")
