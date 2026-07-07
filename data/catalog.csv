@@ -1,0 +1,21 @@
+id,tenant_id,title,description,category,price,in_stock
+1,acme,ThinkPad X1 Carbon,14-inch business laptop with Intel Core Ultra,laptop,1499.99,true
+2,acme,MacBook Air M3,Lightweight Apple laptop for everyday work,laptop,1199.00,true
+3,acme,Dell XPS 15,15-inch laptop with OLED display for creators,laptop,1799.50,true
+4,acme,ASUS ZenBook 14,Compact ultrabook with long battery life,laptop,999.00,true
+5,acme,iPhone 15 Pro,Apple smartphone with titanium body and A17 chip,phone,1099.00,true
+6,acme,Samsung Galaxy S24,Android flagship with AI photo features,phone,899.99,true
+7,acme,Google Pixel 8,Clean Android experience with great camera,phone,699.00,false
+8,acme,Sony WH-1000XM5,Wireless noise cancelling headphones,audio,349.99,true
+9,acme,AirPods Pro 2,In-ear earbuds with active noise cancellation,audio,249.00,true
+10,acme,Logitech MX Master 3S,Ergonomic wireless mouse for productivity,accessory,99.99,true
+11,beta,KitchenAid Stand Mixer,5-quart tilt-head mixer for baking,kitchen,429.99,true
+12,beta,Dyson V15 Detect,Cordless vacuum with laser dust detection,home,749.00,true
+13,beta,Ninja Foodi Blender,High-power blender for smoothies and soups,kitchen,179.99,true
+14,beta,Instant Pot Duo,7-in-1 electric pressure cooker,kitchen,89.99,true
+15,beta,iRobot Roomba j7,Robot vacuum with obstacle avoidance,home,599.00,true
+16,beta,Philips Hue Starter Kit,Smart color bulbs with bridge,smart_home,199.99,true
+17,beta,Nest Learning Thermostat,Smart thermostat that saves energy,smart_home,249.00,false
+18,beta,Casper Original Pillow,Memory foam pillow for side sleepers,bedroom,89.00,true
+19,beta,Brooklinen Sheet Set,Soft cotton sheets queen size,bedroom,149.00,true
+20,beta,Yeti Rambler 26oz,Insulated stainless steel bottle,outdoor,39.99,true
