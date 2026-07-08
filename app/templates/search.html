@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск — {{ tenant }}{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Поиск <span class="muted">/ {{ tenant }}</span></h1>
+
+<form class="filters" action="/search" method="get">
+    <input type="hidden" name="tenant" value="{{ tenant }}">
+    <input class="filters__search" type="search" name="q"
+           placeholder="Например: ноутбук для работы" value="{{ query }}">
+
+    <select class="filters__select" name="category">
+        <option value="">Все категории</option>
+        {% for c in categories %}
+        <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+    </select>
+
+    <input class="filters__price" type="number" step="0.01" min="0"
+           name="min_price" placeholder="от $" value="{{ min_price if min_price is not none else '' }}">
+    <input class="filters__price" type="number" step="0.01" min="0"
+           name="max_price" placeholder="до $" value="{{ max_price if max_price is not none else '' }}">
+
+    <label class="filters__check">
+        <input type="checkbox" name="in_stock" value="true"
+               {% if in_stock %}checked{% endif %}>
+        в наличии
+    </label>
+
+    <button class="btn" type="submit">Искать</button>
+</form>
+
+{% if query %}
+    {% if products %}
+    <p class="muted results-count">Найдено: {{ products|length }}</p>
+    <div class="grid">
+        {% for product in products %}
+        <article class="card">
+            <div class="card__body">
+                <span class="badge">{{ product.category }}</span>
+                <h2 class="card__title">{{ product.title }}</h2>
+                <p class="card__desc">{{ product.description }}</p>
+            </div>
+            <div class="card__footer">
+                <span class="price">${{ "%.2f"|format(product.price) }}</span>
+                <span class="score">RRF {{ "%.3f"|format(product.score) }}</span>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">По запросу «{{ query }}» ничего не найдено. Измените запрос или фильтры.</p>
+    {% endif %}
+{% else %}
+<p class="empty">Введите запрос, чтобы найти товары по смыслу и словам.</p>
+{% endif %}
+{% endblock %}

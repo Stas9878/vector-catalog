@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from app.routes import catalog
+from app.routes import catalog, search
 from app.settings import get_settings
 from app.qdrant.client import get_qdrant_client
 
@@ -25,6 +25,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="VectorCatalog", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 app.include_router(catalog.router)
+app.include_router(search.router)
 
 
 @app.get("/health")

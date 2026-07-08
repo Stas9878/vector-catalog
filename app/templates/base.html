@@ -8,7 +8,15 @@
 </head>
 <body>
     <header class="topbar">
-        <a class="brand" href="/">VectorCatalog</a>
+        <a class="brand" href="/?tenant={{ tenant }}">VectorCatalog</a>
+
+        <form class="searchbar" action="/search" method="get">
+            <input type="hidden" name="tenant" value="{{ tenant }}">
+            <input class="searchbar__input" type="search" name="q"
+                   placeholder="Поиск товаров…" value="{{ query|default('') }}">
+            <button class="searchbar__btn" type="submit">Найти</button>
+        </form>
+
         <nav class="tenant-switch">
             {% for t in tenants %}
             <a class="chip {% if t == tenant %}chip--active{% endif %}"

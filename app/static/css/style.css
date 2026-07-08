@@ -36,6 +36,75 @@ body {
     text-decoration: none;
 }
 
+.searchbar {
+    display: flex;
+    flex: 1;
+    max-width: 480px;
+    margin: 0 24px;
+    gap: 8px;
+}
+
+.searchbar__input {
+    flex: 1;
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 14px;
+    background: var(--bg);
+}
+
+.searchbar__btn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.filters__search { flex: 1; min-width: 220px; }
+
+.filters__search,
+.filters__select,
+.filters__price {
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.filters__price { width: 100px; }
+
+.filters__check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.results-count { margin: 0 0 16px; }
+
+.score {
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
 .tenant-switch { display: flex; gap: 8px; }
 
 .chip {
