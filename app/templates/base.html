@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}VectorCatalog{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/">VectorCatalog</a>
+        <nav class="tenant-switch">
+            {% for t in tenants %}
+            <a class="chip {% if t == tenant %}chip--active{% endif %}"
+               href="/?tenant={{ t }}">{{ t }}</a>
+            {% endfor %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

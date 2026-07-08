@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Каталог — {{ tenant }}{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Каталог <span class="muted">/ {{ tenant }}</span></h1>
+
+{% if products %}
+<div class="grid">
+    {% for product in products %}
+    <article class="card">
+        <div class="card__body">
+            <span class="badge">{{ product.category }}</span>
+            <h2 class="card__title">{{ product.title }}</h2>
+            <p class="card__desc">{{ product.description }}</p>
+        </div>
+        <div class="card__footer">
+            <span class="price">${{ "%.2f"|format(product.price) }}</span>
+            {% if product.in_stock %}
+            <span class="stock stock--in">в наличии</span>
+            {% else %}
+            <span class="stock stock--out">нет в наличии</span>
+            {% endif %}
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+{% if next_offset is not none %}
+<div class="pager">
+    <a class="btn" href="/?tenant={{ tenant }}&offset={{ next_offset }}">Показать ещё</a>
+</div>
+{% endif %}
+{% else %}
+<p class="empty">В каталоге пока нет товаров. Запустите <code>scripts/seed_catalog.py</code>.</p>
+{% endif %}
+{% endblock %}
