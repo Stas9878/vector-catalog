@@ -2,8 +2,8 @@
 Проверка готовности окружения VectorCatalog.
 Запуск: python scripts/check_env.py
 """
-import asyncio
 import sys
+import asyncio
 from pathlib import Path
 
 project_root = Path(__file__).resolve().parent.parent
@@ -38,7 +38,7 @@ def check_packages() -> bool:
 
 def check_config() -> bool:
     try:
-        from app.config import get_settings
+        from app.settings import get_settings
 
         settings = get_settings()
         if settings.SECRET_KEY == "change-me-in-production-use-secrets-module":
@@ -53,7 +53,7 @@ def check_config() -> bool:
 async def _check_qdrant_async() -> bool:
     from qdrant_client import AsyncQdrantClient
 
-    from app.config import get_settings
+    from app.settings import get_settings
 
     settings = get_settings()
     kwargs = {"url": str(settings.QDRANT_URL)}

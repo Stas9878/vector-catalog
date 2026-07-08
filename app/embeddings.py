@@ -13,8 +13,7 @@ def _tokenize(text: str) -> list[str]:
 @lru_cache(maxsize=1)
 def _get_dense_model():
     from sentence_transformers import SentenceTransformer
-
-    from app.config import get_settings
+    from app.settings import get_settings
 
     return SentenceTransformer(get_settings().EMBEDDING_MODEL)
 
