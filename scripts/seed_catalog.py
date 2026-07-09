@@ -49,12 +49,13 @@ async def main() -> int:
         print(f"FAIL  Не найден файл {CSV_PATH}")
         return 1
 
+    recreate = "--fresh" in sys.argv
     rows = load_rows()
     client = get_qdrant_client()
 
     try:
-        print("Создание коллекции и индексов...")
-        await setup_products_collection(client)
+        print("Создание коллекции, индексов и алиаса...")
+        await setup_products_collection(client, recreate=recreate)
 
         points = [row_to_point(row) for row in rows]
         await client.upsert(collection_name=COLLECTION_NAME, points=points, wait=True)

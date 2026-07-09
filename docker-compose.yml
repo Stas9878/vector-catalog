@@ -1,0 +1,64 @@
+services:
+  qdrant:
+    image: ${QDRANT_IMAGE:-qdrant/qdrant:v1.18.2}
+    container_name: vector-catalog-qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:-test_key}
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  postgres:
+    image: postgres:18-alpine
+    container_name: vector-catalog-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: vector
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vector_pass}
+      POSTGRES_DB: vector_catalog
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vector -d vector_catalog"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build: .
+    container_name: vector-catalog-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-test_key}
+      DATABASE_URL: postgresql+asyncpg://vector:${POSTGRES_PASSWORD:-vector_pass}@postgres:5432/vector_catalog
+      APP_ENV: prod
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend
+
+volumes:
+  qdrant_data:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
