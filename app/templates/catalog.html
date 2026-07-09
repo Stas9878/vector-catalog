@@ -11,7 +11,9 @@
     <article class="card">
         <div class="card__body">
             <span class="badge">{{ product.category }}</span>
-            <h2 class="card__title">{{ product.title }}</h2>
+            <h2 class="card__title">
+                <a class="card__link" href="/product/{{ product.id }}?tenant={{ tenant }}">{{ product.title }}</a>
+            </h2>
             <p class="card__desc">{{ product.description }}</p>
         </div>
         <div class="card__footer">

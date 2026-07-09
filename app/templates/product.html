@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.title }} — {{ tenant }}{% endblock %}
+
+{% block content %}
+<p class="back-link">
+    <a href="/?tenant={{ tenant }}">← Каталог</a>
+</p>
+
+<article class="product-hero">
+    <span class="badge">{{ product.category }}</span>
+    <h1 class="page-title">{{ product.title }}</h1>
+    <p class="product-hero__desc">{{ product.description }}</p>
+    <div class="product-hero__meta">
+        <span class="price price--lg">${{ "%.2f"|format(product.price) }}</span>
+        {% if product.in_stock %}
+        <span class="stock stock--in">в наличии</span>
+        {% else %}
+        <span class="stock stock--out">нет в наличии</span>
+        {% endif %}
+    </div>
+</article>
+
+{% if similar %}
+<section class="rec-section">
+    <h2 class="rec-section__title">Похожие товары</h2>
+    <p class="muted rec-section__hint">Recommendation API: <code>positive=[{{ product.id }}]</code></p>
+    <div class="grid grid--compact">
+        {% for item in similar %}
+        <a class="card card--link" href="/product/{{ item.id }}?tenant={{ tenant }}">
+            <div class="card__body">
+                <span class="badge">{{ item.category }}</span>
+                <h3 class="card__title">{{ item.title }}</h3>
+            </div>
+            <div class="card__footer">
+                <span class="price">${{ "%.2f"|format(item.price) }}</span>
+                <span class="score">{{ "%.3f"|format(item.score) }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if has_history %}
+<section class="rec-section">
+    <h2 class="rec-section__title">Рекомендуем вам</h2>
+    <p class="muted rec-section__hint">По недавним просмотрам в PostgreSQL</p>
+    {% if for_you %}
+    <div class="grid grid--compact">
+        {% for item in for_you %}
+        <a class="card card--link" href="/product/{{ item.id }}?tenant={{ tenant }}">
+            <div class="card__body">
+                <span class="badge">{{ item.category }}</span>
+                <h3 class="card__title">{{ item.title }}</h3>
+            </div>
+            <div class="card__footer">
+                <span class="price">${{ "%.2f"|format(item.price) }}</span>
+                <span class="score">{{ "%.3f"|format(item.score) }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">Просмотрите ещё 1–2 товара — блок заполнится рекомендациями.</p>
+    {% endif %}
+</section>
+{% else %}
+<section class="rec-section">
+    <h2 class="rec-section__title">Рекомендуем вам</h2>
+    <p class="empty">Откройте ещё пару товаров из каталога — рекомендации строятся по истории просмотров.</p>
+</section>
+{% endif %}
+{% endblock %}

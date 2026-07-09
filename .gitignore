@@ -10,7 +10,7 @@ __pycache__/
 *.log
 .pytest_cache/
 
-data/events.db
+data/
 
 .idea/
 .vscode/

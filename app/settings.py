@@ -44,6 +44,11 @@ class Settings(BaseSettings):
         description="Модель для dense-embedding (урок 6.2)"
     )
 
+    DATABASE_URL: str = Field(
+        default="postgresql+asyncpg://vector:vector_pass@localhost:5432/vector_catalog",
+        description="URL PostgreSQL для async SQLAlchemy"
+    )
+
     @property
     def is_dev(self) -> bool:
         return self.APP_ENV == "dev"
